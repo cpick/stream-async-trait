@@ -5,15 +5,45 @@ use futures::{
     executor::block_on_stream,
 };
 
-#[async_trait(?Send)]
+#[async_trait]
 pub trait Make {
     // working
     fn make<'a, T: Default + 'a>(&self) -> LocalBoxFuture<'a, T> {
         Box::pin(future::ready(T::default()))
     }
 
+
     // broken
+
     // async fn make<'a, T: Default + 'a>(&self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<T: Default>(&self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<T: Default + 'async_trait>(&self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<'a, T: Default + 'async_trait>(&'a self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<'a, T: Default + 'a>(&'a self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<'a, T: Default + 'a>(&'async_trait self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<T: Default + 'async_trait>(&'async_trait self) -> T {
+    //     T::default()
+    // }
+
+    // async fn make<T: Default>(&'async_trait self) -> T {
     //     T::default()
     // }
 }
